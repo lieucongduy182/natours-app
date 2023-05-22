@@ -17,4 +17,4 @@ class User {
   async deleteUser(req, res, next) {}
 }
 
-module.exports = new User();
+export default new User();

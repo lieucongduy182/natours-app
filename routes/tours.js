@@ -1,5 +1,5 @@
-const express = require('express');
-const tourController = require('../controllers/tourController');
+import express from 'express';
+import tourController from '../controllers/tourController.js';
 const router = express.Router();
 
 router.param('id', tourController.checkID);
@@ -11,4 +11,4 @@ router
   .put('/:id', tourController.updateTour)
   .delete('/:id', tourController.deleteTour);
 
-module.exports = router;
+export default router;

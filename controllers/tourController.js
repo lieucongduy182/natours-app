@@ -1,6 +1,9 @@
-const fs = require('fs');
+import fs from 'fs';
+import { getDirPath } from '../utils/getDirPath.js';
 const tours = JSON.parse(
-  fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`),
+  fs.readFileSync(
+    getDirPath(import.meta.url, '../dev-data/data/tours-simple.json'),
+  ),
 );
 
 class TourController {
@@ -66,4 +69,4 @@ class TourController {
   }
 }
 
-module.exports = new TourController();
+export default new TourController();
