@@ -4,6 +4,9 @@
   "type": "module",
   "description": "Natural Tours Project",
   "main": "app.js",
+  "engines": {
+    "node": ">=10"
+  },
   "scripts": {
     "start": "nodemon server.js",
     "start:prod": "NODE_ENV=production nodemon server.js"

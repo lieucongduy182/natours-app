@@ -1,71 +1,38 @@
-import fs from 'fs';
-import { getDirPath } from '../utils/getDirPath.js';
-const tours = JSON.parse(
-  fs.readFileSync(
-    getDirPath(import.meta.url, '../dev-data/data/tours-simple.json'),
-  ),
-);
+import Tour from '../models/Tour.js';
 
 class TourController {
-  async getAllTours(req, res, next) {
-    const requestTimeAt = req.requestTime;
+  async getAllTours(req, res) {}
 
-    res.status(200).json({
-      status: 'success',
-      requestTimeAt,
-      results: tours.length,
-      data: {
-        tours: tours,
-      },
-    });
-  }
+  async getTour(req, res) {}
 
-  async getTour(req, res, next) {
-    const id = parseInt(req.params.id, 10);
-    const requestTimeAt = req.requestTime;
+  async createTour(req, res) {
+    try {
+      const newTour = await Tour.create(req.body);
 
-    const tour = tours.find((tour) => tour.id === id);
-    if (!tour) {
-      return res.status(500).json({
+      return res.status(201).json({
+        status: 'success',
+        data: {
+          newTour,
+        },
+      });
+    } catch (error) {
+      return res.status(400).json({
         status: 'fail',
-        message: 'Bad Request !',
+        message: 'Invalid input data !',
       });
     }
-
+  }
+  async updateTour(req, res) {
     return res.status(200).json({
       status: 'success',
-      requestTimeAt,
-      data: {
-        tour,
-      },
+      message: 'Updated Successfully',
     });
   }
-
-  async createTour(req, res, next) {
-    const newTour = req.body;
-    const requestTimeAt = req.requestTime;
-
-    newTour.id = tours.length + 1;
-    tours.push(newTour);
-
-    return res.status(201).json({
+  async deleteTour(req, res) {
+    return res.status(204).json({
       status: 'success',
-      requestTimeAt,
-      message: 'Create Successfully',
+      message: 'Deleted Successfully',
     });
-  }
-  async updateTour(req, res, next) {}
-  async deleteTour(req, res, next) {}
-
-  async checkID(req, res, next) {
-    const id = parseInt(req.params.id, 10);
-    if (!Number.isInteger(id) || id > tours.length) {
-      return res.status(404).json({
-        status: 'fail',
-        message: 'Invalid ID',
-      });
-    }
-    next();
   }
 }
 
