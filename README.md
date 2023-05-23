@@ -29,3 +29,13 @@ DATABASE=
 DATABASE_LOCAL=
 DATABASE_PASSWORD=
 ```
+
+### Import data for development
+```
+node dev-data/data/tours-simple.json --import
+```
+
+### Deleta data for development
+```
+node dev-data/data/tours-simple.json --delete
+```
