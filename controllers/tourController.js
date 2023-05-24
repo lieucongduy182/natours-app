@@ -1,22 +1,14 @@
 import Tour from '../models/Tour.js';
+import { sendResponse } from '../utils/sendResponse.js';
 
 class TourController {
   async getAllTours(req, res) {
     try {
       const tours = await Tour.find();
 
-      return res.status(200).json({
-        status: 'success',
-        results: tours.length,
-        data: {
-          tours,
-        },
-      });
+      return sendResponse(res, 200, tours.length, { tours }, null);
     } catch (error) {
-      return res.status(404).json({
-        status: 'fail',
-        message: error,
-      });
+      return sendResponse(res, 404, null, null, error);
     }
   }
 
@@ -24,17 +16,9 @@ class TourController {
     try {
       const tour = await Tour.findById(req.params.id);
 
-      return res.status(200).json({
-        status: 'success',
-        data: {
-          tour,
-        },
-      });
+      return sendResponse(res, 200, tour.length, { tour }, null);
     } catch (error) {
-      return res.status(404).json({
-        status: 'fail',
-        message: error,
-      });
+      return sendResponse(res, 404, null, null, error);
     }
   }
 
@@ -42,17 +26,9 @@ class TourController {
     try {
       const newTour = await Tour.create(req.body);
 
-      return res.status(201).json({
-        status: 'success',
-        data: {
-          newTour,
-        },
-      });
+      return sendResponse(res, 200, newTour.length, { newTour }, null);
     } catch (error) {
-      return res.status(400).json({
-        status: 'fail',
-        message: error,
-      });
+      return sendResponse(res, 400, null, null, error);
     }
   }
   async updateTour(req, res) {
@@ -65,17 +41,9 @@ class TourController {
         runValidators: true,
       });
 
-      return res.status(200).json({
-        status: 'success',
-        data: {
-          tour,
-        },
-      });
+      return sendResponse(res, 200, tour.length, { tour }, null);
     } catch (error) {
-      return res.status(404).json({
-        status: 'fail',
-        message: error,
-      });
+      return sendResponse(res, 400, null, null, error);
     }
   }
   async deleteTour(req, res) {
@@ -85,15 +53,9 @@ class TourController {
       await Tour.findByIdAndDelete(id, {
         strict: true,
       });
-      return res.status(204).json({
-        status: 'success',
-        data: null,
-      });
+      return sendResponse(res, 200, 1, null, null);
     } catch (error) {
-      return res.status(404).json({
-        status: 'fail',
-        message: error,
-      });
+      return sendResponse(res, 400, null, null, error);
     }
   }
 }
