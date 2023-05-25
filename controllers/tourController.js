@@ -1,14 +1,27 @@
 import Tour from '../models/Tour.js';
+import APIFeatures from '../utils/api-features.js';
 import { sendResponse } from '../utils/sendResponse.js';
 
 class TourController {
+  async aliasTours(req, res, next) {
+    req.query.limit = '5';
+    req.query.sort = '-ratingsAverage,price';
+    req.query.fields = 'name,price,ratingsAverage,summary,difficulty';
+    next();
+  }
+
   async getAllTours(req, res) {
     try {
-      const tours = await Tour.find();
+      const features = new APIFeatures(Tour.find(), req.query)
+        .filter()
+        .sort()
+        .limitingFields()
+        .pagination();
+      const tours = await features.query;
 
       return sendResponse(res, 200, tours.length, { tours }, null);
     } catch (error) {
-      return sendResponse(res, 404, null, null, error);
+      return sendResponse(res, 404, null, null, error.message);
     }
   }
 
