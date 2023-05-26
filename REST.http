@@ -1,0 +1,9 @@
+@host=http://localhost:3000/api/v1
+@top-5-cheap=top-5-cheap
+@fields=fields=name,price,maxGroupSize
+@sort=sort=price
+@pagination=page=2&limit={{ limit }}
+@limit=3
+###
+GET {{host}}/tours?{{pagination}} HTTP/1.1
+Content-Type: application/application/json
