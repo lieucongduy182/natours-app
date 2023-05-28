@@ -6,14 +6,18 @@ class User {
       data: null,
     });
   }
+
   async getUser(req, res, next) {}
+
   async createUser(req, res, next) {
     res.status(201).json({
       status: 'success',
       requestTimeAt: req.requestTime,
     });
   }
+
   async updateUser(req, res, next) {}
+
   async deleteUser(req, res, next) {}
 }
 

@@ -44,9 +44,10 @@ class TourController {
       return sendResponse(res, 400, null, null, error);
     }
   }
+
   async updateTour(req, res) {
     try {
-      const id = req.params.id;
+      const { id } = req.params;
       const data = req.body;
 
       const tour = await Tour.findByIdAndUpdate(id, data, {
@@ -59,9 +60,10 @@ class TourController {
       return sendResponse(res, 400, null, null, error);
     }
   }
+
   async deleteTour(req, res) {
     try {
-      const id = req.params.id;
+      const { id } = req.params;
 
       await Tour.findByIdAndDelete(id, {
         strict: true,
