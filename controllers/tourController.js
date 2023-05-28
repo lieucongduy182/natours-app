@@ -71,6 +71,83 @@ class TourController {
       return sendResponse(res, 400, null, null, error);
     }
   }
+
+  async getTourStats(req, res) {
+    try {
+      const tours = await Tour.aggregate([
+        {
+          $match: {
+            ratingsAverage: { $gte: 4.5 },
+          },
+        },
+        {
+          $group: {
+            _id: { $toUpper: '$difficulty' },
+            numTours: { $sum: 1 },
+            numRatings: { $sum: '$ratingsQuantity' },
+            avgPrice: { $avg: '$price' },
+            minPrice: { $min: '$price' },
+            maxPrice: { $max: '$price' },
+          },
+        },
+        {
+          $sort: {
+            avgPrice: 1,
+          },
+        },
+      ]);
+      sendResponse(res, 200, tours.length, { tours }, null);
+    } catch (error) {
+      sendResponse(res, 400, null, null, error.message);
+    }
+  }
+
+  async getMonthlyTours(req, res) {
+    try {
+      const year = req.params.year * 1;
+      const limit = req.query.limit * 1 || 12;
+      if (!year) {
+        throw new Error('Please provide correctly year');
+      }
+      const monthlyTours = await Tour.aggregate([
+        { $unwind: '$startDates' },
+        {
+          $match: {
+            startDates: {
+              $gte: new Date(`${year}-01-01`),
+              $lte: new Date(`${year}-12-31`),
+            },
+          },
+        },
+        {
+          $group: {
+            _id: { $month: '$startDates' },
+            numberTourStats: { $sum: 1 },
+            tours: {
+              $push: {
+                name: '$name',
+                price: '$price',
+                size: '$maxGroupSize',
+                startDates: '$startDates',
+              },
+            },
+          },
+        },
+        {
+          $addFields: { month: '$_id' },
+        },
+        {
+          $project: { _id: 0 },
+        },
+        {
+          $sort: { numberTourStats: -1 },
+        },
+      ]).limit(limit);
+      sendResponse(res, 200, monthlyTours.length, { monthlyTours }, null);
+    } catch (error) {
+      sendResponse(res, 400, null, null, error.message);
+    }
+  }
 }
 
 export default new TourController();
