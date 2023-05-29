@@ -1,5 +1,6 @@
 import express from 'express';
 import tourController from '../controllers/tourController.js';
+
 const router = express.Router();
 
 // Alias API for top-5-cheap
