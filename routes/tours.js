@@ -1,5 +1,6 @@
 import express from 'express';
 import tourController from '../controllers/tourController.js';
+import { catchAsync } from '../utils/catchAsync.js';
 
 const router = express.Router();
 
@@ -7,17 +8,17 @@ const router = express.Router();
 router.get(
   '/top-5-cheap',
   tourController.aliasTours,
-  tourController.getAllTours,
+  catchAsync(tourController.getAllTours),
 );
 
-router.get('/stats', tourController.getTourStats);
-router.get('/monthly-tours/:year', tourController.getMonthlyTours);
+router.get('/stats', catchAsync(tourController.getTourStats));
+router.get('/monthly-tours/:year', catchAsync(tourController.getMonthlyTours));
 
 router
-  .get('/', tourController.getAllTours)
-  .post('/', tourController.createTour)
-  .get('/:id', tourController.getTour)
-  .put('/:id', tourController.updateTour)
-  .delete('/:id', tourController.deleteTour);
+  .get('/', catchAsync(tourController.getAllTours))
+  .post('/', catchAsync(tourController.createTour))
+  .get('/:id', catchAsync(tourController.getTour))
+  .put('/:id', catchAsync(tourController.updateTour))
+  .delete('/:id', catchAsync(tourController.deleteTour));
 
 export default router;

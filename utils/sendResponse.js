@@ -1,12 +1,6 @@
 export const sendResponse = (res, statusCode, result, data, message) => {
-  let status = '';
-  if (statusCode >= 200 && statusCode < 300) {
-    status = 'success';
-  } else {
-    status = 'fail';
-  }
   res.status(statusCode).json({
-    status: status,
+    status: statusCode >= 200 && statusCode < 300 ? 'success' : 'fail',
     result: result,
     data: data,
     message: message,

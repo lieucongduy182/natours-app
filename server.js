@@ -18,11 +18,20 @@ mongoose
   })
   .then(() => {
     console.log('Connected Database Successfully !');
-  })
-  .catch((error) => {
-    console.log('Failed to connect Database', error);
   });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`App is listening on ${PORT}`);
+});
+
+process.on('unhandledRejection', (err) => {
+  console.log(err.name, err.message);
+  console.log('UNHANDLED REJECTION! Shutting down...');
+  server.close(() => process.exit(1));
+});
+
+process.on('uncaughtException', (err) => {
+  console.log(err.name, err.message);
+  console.log('UNHANDLED EXPECTION! Shutting down...');
+  process.exit(1);
 });

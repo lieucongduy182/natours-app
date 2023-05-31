@@ -8,7 +8,9 @@ const app = express();
 
 import toursRoute from './routes/tours.js';
 import userRoute from './routes/user.js';
+import AppError from './utils/appError.js';
 import { getDirPath } from './utils/getDirPath.js';
+import { globalErrorHandler } from './controllers/errorController.js';
 
 // Middleware
 if (process.env.NODE_ENV === 'development') {
@@ -29,10 +31,9 @@ app.use('/api/v1/users', userRoute);
 app.use('/api/v1/tours', toursRoute);
 
 app.all('*', (req, res, next) => {
-  res.status(404).json({
-    status: 'failed',
-    message: `Can not find ${req.originalUrl} on this server`,
-  });
+  next(new AppError(`Can not find ${req.originalUrl} on this server`), 404);
 });
+
+app.use(globalErrorHandler);
 
 export default app;
