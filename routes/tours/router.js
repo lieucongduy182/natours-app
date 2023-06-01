@@ -1,15 +1,15 @@
 import express from 'express';
-import { catchAsync } from '../utils/catchAsync.js';
+import { catchAsync } from '../../utils/catchAsync.js';
 
-import { aliasTours } from '../middleware/aliasTours.js';
+import { aliasTours } from '../../middleware/aliasTours.js';
 
-import getAllTours from './tours/getAllTours/get.js';
-import getTour from './tours/getTour/get.js';
-import createTour from './tours/createTour/post.js';
-import updateTour from './tours/updateTour/put.js';
-import deleteTour from './tours/deleteTour/delete.js';
-import getTourStats from './tours/tour-stats/get.js';
-import getMonthlyTours from './tours/monthly-tours/get.js';
+import getAllTours from './getAllTours/get.js';
+import getTour from './getTour/get.js';
+import createTour from './createTour/post.js';
+import updateTour from './updateTour/put.js';
+import deleteTour from './deleteTour/delete.js';
+import getTourStats from './tour-stats/get.js';
+import getMonthlyTours from './monthly-tours/get.js';
 
 const router = express.Router();
 

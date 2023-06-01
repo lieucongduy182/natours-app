@@ -6,8 +6,8 @@ dotenv.config();
 
 const app = express();
 
-import toursRoute from './routes/tours.js';
-import userRoute from './routes/user.js';
+import toursRoute from './routes/tours/router.js';
+import userRoute from './routes/user/router.js';
 import AppError from './utils/appError.js';
 import { getDirPath } from './utils/getDirPath.js';
 import { globalErrorHandler } from './controllers/errorController.js';
