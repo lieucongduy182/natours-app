@@ -1,24 +1,15 @@
-class User {
-  async getAllUsers(req, res, next) {
-    res.status(200).json({
-      status: 'success',
-      requestTimeAt: req.requestTime,
-      data: null,
-    });
-  }
+import User from '../models/User.js';
 
-  async getUser(req, res, next) {}
+class UserController {
+  async getAllUsers() {}
 
-  async createUser(req, res, next) {
-    res.status(201).json({
-      status: 'success',
-      requestTimeAt: req.requestTime,
-    });
-  }
+  async getUser({ userId }) {}
 
-  async updateUser(req, res, next) {}
+  async createUser({ data }) {}
 
-  async deleteUser(req, res, next) {}
+  async updateUser({ userId }) {}
+
+  async deleteUser({ userId }) {}
 }
 
-export default new User();
+export default new UserController();

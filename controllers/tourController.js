@@ -1,109 +1,64 @@
 import Tour from '../models/Tour.js';
 import APIFeatures from '../utils/api-features.js';
-import AppError from '../utils/appError.js';
-import { sendResponse } from '../utils/sendResponse.js';
 
 class TourController {
-  async aliasTours(req, res, next) {
-    req.query.limit = '5';
-    req.query.sort = '-ratingsAverage,price';
-    req.query.fields = 'name,price,ratingsAverage,summary,difficulty';
-    next();
-  }
-
-  async getAllTours(req, res) {
-    const features = new APIFeatures(Tour.find(), req.query)
+  getAllTours({ query }) {
+    const features = new APIFeatures(Tour.find(), query)
       .filter()
       .sort()
       .limitingFields()
       .pagination();
-    const tours = await features.query;
-
-    return sendResponse(res, 200, tours.length, { tours }, null);
+    return features.query;
   }
 
-  async getTour(req, res, next) {
-    const tour = await Tour.findById(req.params.id);
-    if (!tour) {
-      return next(new AppError('Not Found The Tour with that ID', 404));
-    }
-
-    return sendResponse(res, 200, tour.length, { tour }, null);
+  getTour({ id }) {
+    return Tour.findById(id);
   }
 
-  async createTour(req, res) {
-    const newTour = await Tour.create(req.body);
-
-    return sendResponse(res, 200, newTour.length, { newTour }, null);
+  createTour({ data }) {
+    return Tour.create(data);
   }
 
-  async updateTour(req, res, next) {
-    const { id } = req.params;
-    const data = req.body;
-
-    const tour = await Tour.findByIdAndUpdate(id, data, {
+  updateTour({ id, data }) {
+    return Tour.findByIdAndUpdate(id, data, {
       new: true,
       runValidators: true,
     });
-
-    if (!tour) {
-      return next(new AppError('Not Found The Tour with that ID', 404));
-    }
-
-    return sendResponse(res, 200, tour.length, { tour }, null);
   }
 
-  async deleteTour(req, res, next) {
-    const { id } = req.params;
-
-    const tour = await Tour.findByIdAndDelete(id, {
+  deleteTour({ id }) {
+    return Tour.findByIdAndDelete(id, {
       strict: true,
     });
-
-    if (!tour) {
-      return next(new AppError('Not Found The Tour with that ID', 404));
-    }
-
-    return sendResponse(res, 200, 1, null, null);
   }
 
-  async getTourStats(req, res) {
-    try {
-      const tours = await Tour.aggregate([
-        {
-          $match: {
-            ratingsAverage: { $gte: 4.5 },
-          },
+  getTourStats() {
+    return Tour.aggregate([
+      {
+        $match: {
+          ratingsAverage: { $gte: 4.5 },
         },
-        {
-          $group: {
-            _id: { $toUpper: '$difficulty' },
-            numTours: { $sum: 1 },
-            numRatings: { $sum: '$ratingsQuantity' },
-            avgPrice: { $avg: '$price' },
-            minPrice: { $min: '$price' },
-            maxPrice: { $max: '$price' },
-          },
+      },
+      {
+        $group: {
+          _id: { $toUpper: '$difficulty' },
+          numTours: { $sum: 1 },
+          numRatings: { $sum: '$ratingsQuantity' },
+          avgPrice: { $avg: '$price' },
+          minPrice: { $min: '$price' },
+          maxPrice: { $max: '$price' },
         },
-        {
-          $sort: {
-            avgPrice: 1,
-          },
+      },
+      {
+        $sort: {
+          avgPrice: 1,
         },
-      ]);
-      sendResponse(res, 200, tours.length, { tours }, null);
-    } catch (error) {
-      sendResponse(res, 400, null, null, error.message);
-    }
+      },
+    ]);
   }
 
-  async getMonthlyTours(req, res) {
-    const year = req.params.year * 1;
-    const limit = req.query.limit * 1 || 12;
-    if (!year) {
-      throw new Error('Please provide correctly year');
-    }
-    const monthlyTours = await Tour.aggregate([
+  getMonthlyTours({ year, limit }) {
+    return Tour.aggregate([
       { $unwind: '$startDates' },
       {
         $match: {
@@ -137,7 +92,6 @@ class TourController {
         $sort: { numberTourStats: -1 },
       },
     ]).limit(limit);
-    sendResponse(res, 200, monthlyTours.length, { monthlyTours }, null);
   }
 }
 
