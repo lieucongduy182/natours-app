@@ -1,7 +1,10 @@
 import User from '../models/User.js';
 
 class UserController {
-  async getAllUsers() {}
+  async getAllUsers() {
+    const users = await User.find();
+    return users;
+  }
 
   async getUser({ userId }) {}
 
