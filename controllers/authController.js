@@ -14,6 +14,7 @@ class AuthController {
       email: data.email,
       password: data.password,
       passwordConfirm: data.passwordConfirm,
+      passwordChangedAt: data.passwordChangedAt,
     });
 
     const token = await this.signToken({ id: newUser._id });
