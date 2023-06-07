@@ -17,10 +17,5 @@ export default async function (req, res, next) {
   return res.status(200).json({
     status: 'success',
     token: result.token,
-    data: {
-      user: {
-        email: result.user.email,
-      },
-    },
   });
 }

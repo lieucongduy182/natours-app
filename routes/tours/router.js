@@ -2,6 +2,7 @@ import express from 'express';
 import { catchAsync } from '../../utils/catchAsync.js';
 
 import { aliasTours } from '../../middleware/aliasTours.js';
+import { authProtected } from '../../middleware/auth.js';
 
 import getAllTours from './getAllTours/get.js';
 import getTour from './getTour/get.js';
@@ -20,7 +21,7 @@ router.get('/stats', catchAsync(getTourStats));
 router.get('/monthly-tours/:year', catchAsync(getMonthlyTours));
 
 router
-  .get('/', catchAsync(getAllTours))
+  .get('/', catchAsync(authProtected), catchAsync(getAllTours))
   .post('/', catchAsync(createTour))
   .get('/:id', catchAsync(getTour))
   .put('/:id', catchAsync(updateTour))

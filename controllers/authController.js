@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
 class AuthController {
-  async signToken({ id }) {
+  signToken({ id }) {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
@@ -38,7 +38,7 @@ class AuthController {
 
     const token = await this.signToken({ id: user._id });
 
-    return { user, token };
+    return { token };
   }
 }
 
