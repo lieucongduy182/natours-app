@@ -42,6 +42,24 @@ class AuthController {
 
     return { token };
   }
+
+  async updatePassWord({ data, userId }) {
+    const user = await User.findById(userId).select('+password');
+
+    const checkPassword = await user.correctPassword({
+      candidatePassword: data.currentPassword,
+      userPassword: user.password,
+    });
+
+    if (!checkPassword) return false;
+
+    user.password = data.password;
+    user.passwordConfirm = data.passwordConfirm;
+    await user.save();
+
+    const token = this.signToken({ id: user._id });
+    return { token };
+  }
 }
 
 export default new AuthController();

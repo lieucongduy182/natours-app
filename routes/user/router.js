@@ -3,6 +3,7 @@ import { catchAsync } from '../../utils/catchAsync.js';
 
 import authLogin from '../auth/login/post.js';
 import authRegister from '../auth/register/post.js';
+import authUpdatePassword from '../auth/updatePassword/patch.js';
 
 import forgotPassword from '../auth/forgotPassword/post.js';
 import resetPassword from '../auth/resetPassword/patch.js';
@@ -13,6 +14,8 @@ import createUser from './createUser/post.js';
 import updateUser from './updateUser/put.js';
 import deleteUser from './deleteUser/delete.js';
 
+import { authProtected } from '../../middleware/auth.js';
+
 const router = express.Router();
 
 // Auth
@@ -22,7 +25,12 @@ router
 
 router
   .post('/forgot-password', catchAsync(forgotPassword))
-  .patch('/reset-password/:token', catchAsync(resetPassword));
+  .patch('/reset-password/:token', catchAsync(resetPassword))
+  .patch(
+    '/update-password/:id',
+    catchAsync(authProtected),
+    catchAsync(authUpdatePassword),
+  );
 
 // User
 
