@@ -4,6 +4,9 @@ import { catchAsync } from '../../utils/catchAsync.js';
 import authLogin from '../auth/login/post.js';
 import authRegister from '../auth/register/post.js';
 
+import forgotPassword from '../auth/forgotPassword/post.js';
+import resetPassword from '../auth/resetPassword/patch.js';
+
 import getAllUsers from './getAllUsers/get.js';
 import getUser from './getUser/get.js';
 import createUser from './createUser/post.js';
@@ -16,6 +19,10 @@ const router = express.Router();
 router
   .post('/register', catchAsync(authRegister))
   .post('/login', catchAsync(authLogin));
+
+router
+  .post('/forgot-password', catchAsync(forgotPassword))
+  .patch('/reset-password/:token', catchAsync(resetPassword));
 
 // User
 
