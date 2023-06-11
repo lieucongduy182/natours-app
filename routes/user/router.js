@@ -11,8 +11,8 @@ import resetPassword from '../auth/resetPassword/patch.js';
 import getAllUsers from './getAllUsers/get.js';
 import getUser from './getUser/get.js';
 import createUser from './createUser/post.js';
-import updateUser from './updateUser/put.js';
-import deleteUser from './deleteUser/delete.js';
+import updateMe from './updateMe/patch.js';
+import deleteMe from './deleteMe/delete.js';
 
 import { authProtected } from '../../middleware/auth.js';
 
@@ -35,10 +35,10 @@ router
 // User
 
 router
-  .get('/', getAllUsers)
+  .get('/', catchAsync(authProtected), catchAsync(getAllUsers))
   .post('/', createUser)
   .get('/:id', getUser)
-  .put('/:id', updateUser)
-  .delete('/:id', deleteUser);
+  .patch('/update-me', catchAsync(authProtected), catchAsync(updateMe))
+  .patch('/delete-me', catchAsync(authProtected), catchAsync(deleteMe));
 
 export default router;

@@ -1,4 +1,5 @@
 import User from '../models/User.js';
+import { filterObj } from '../utils/filterObject.js';
 
 class UserController {
   async getAllUsers() {
@@ -10,9 +11,20 @@ class UserController {
 
   async createUser({ data }) {}
 
-  async updateUser({ userId }) {}
+  async updateMe({ data, userId }) {
+    const filterDataToUpdated = filterObj(data, 'name', 'email');
+    if (!Object.keys(filterDataToUpdated).length) return null;
+    const newUser = await User.findByIdAndUpdate(userId, filterDataToUpdated, {
+      new: true,
+      runValidators: true,
+    });
 
-  async deleteUser({ userId }) {}
+    return newUser;
+  }
+
+  async deleteMe({ userId }) {
+    await User.findByIdAndUpdate(userId, { active: false });
+  }
 }
 
 export default new UserController();
