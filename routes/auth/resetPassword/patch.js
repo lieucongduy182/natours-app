@@ -2,7 +2,6 @@ import crypto from 'crypto';
 import User from '../../../models/User.js';
 import AppError from '../../../utils/appError.js';
 import authController from '../../../controllers/authController.js';
-import { sendResponse } from '../../../utils/sendResponse.js';
 
 export default async function (req, res, next) {
   const hashedToken = crypto
@@ -25,7 +24,5 @@ export default async function (req, res, next) {
   user.passwordResetExpires = undefined;
   await user.save();
 
-  const token = authController.signToken(user._id);
-
-  sendResponse(res, 200, null, { token }, 'Password changed successfully!');
+  authController.createSendToken({ user, statusCode: 200, res });
 }

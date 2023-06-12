@@ -27,7 +27,7 @@ router
   .post('/forgot-password', catchAsync(forgotPassword))
   .patch('/reset-password/:token', catchAsync(resetPassword))
   .patch(
-    '/update-password/:id',
+    '/update-password',
     catchAsync(authProtected),
     catchAsync(authUpdatePassword),
   );

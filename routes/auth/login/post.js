@@ -8,14 +8,11 @@ export default async function (req, res, next) {
     return next(new AppError('Please provide email and password!', 400));
   }
 
-  const result = await authController.login({ data: req.body });
+  const user = await authController.login({ data: req.body });
 
-  if (!result) {
+  if (!user) {
     return next(new AppError('Incorrect email or password', 401));
   }
 
-  return res.status(200).json({
-    status: 'success',
-    token: result.token,
-  });
+  authController.createSendToken({ user, statusCode: 200, res });
 }

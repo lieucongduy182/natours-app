@@ -1,17 +1,13 @@
 import authController from '../../../controllers/authController.js';
+import AppError from '../../../utils/appError.js';
 
 export default async function (req, res, next) {
   const data = req.body;
-  const result = await authController.register({ data });
+  if (!data) {
+    return next(new AppError('Please provide data', 400));
+  }
 
-  return res.status(201).json({
-    status: 'success',
-    token: result.token,
-    data: {
-      user: {
-        name: result.newUser.name,
-        email: result.newUser.email,
-      },
-    },
-  });
+  const user = await authController.register({ data });
+
+  authController.createSendToken({ user, statusCode: 201, res });
 }

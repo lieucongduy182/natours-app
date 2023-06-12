@@ -8,8 +8,34 @@ class AuthController {
     });
   }
 
-  async register({ data }) {
-    const newUser = await User.create({
+  createSendToken({ user, statusCode, res }) {
+    const token = this.signToken({ id: user._id });
+
+    const cookiesOption = {
+      expires: new Date(
+        Date.now() + process.env.JWT_COOKIES_EXPIRES_IN * 24 * 60 * 60 * 1000,
+      ),
+      httpOnly: true,
+    };
+
+    if (process.env.NODE_ENV === 'production') cookiesOption.secure = true;
+
+    res.cookie('jwt', token, cookiesOption);
+
+    user.password = undefined;
+    user.passwordConfirm = undefined;
+
+    res.status(statusCode).json({
+      status: 'success',
+      token,
+      data: {
+        user,
+      },
+    });
+  }
+
+  register({ data }) {
+    return User.create({
       name: data.name,
       email: data.email,
       password: data.password,
@@ -17,13 +43,6 @@ class AuthController {
       passwordChangedAt: data.passwordChangedAt,
       role: data.role,
     });
-
-    const token = await this.signToken({ id: newUser._id });
-
-    return {
-      newUser,
-      token,
-    };
   }
 
   async login({ data }) {
@@ -38,9 +57,7 @@ class AuthController {
 
     if (!isCorrectPassword) return null;
 
-    const token = await this.signToken({ id: user._id });
-
-    return { token };
+    return user;
   }
 
   async updatePassWord({ data, userId }) {
@@ -57,8 +74,7 @@ class AuthController {
     user.passwordConfirm = data.passwordConfirm;
     await user.save();
 
-    const token = this.signToken({ id: user._id });
-    return { token };
+    return user;
   }
 }
 
