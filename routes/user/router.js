@@ -36,8 +36,8 @@ router
 
 router
   .get('/', catchAsync(authProtected), catchAsync(getAllUsers))
-  .post('/', createUser)
-  .get('/:id', getUser)
+  .post('/', catchAsync(authProtected), createUser)
+  .get('/:id', catchAsync(authProtected), getUser)
   .patch('/update-me', catchAsync(authProtected), catchAsync(updateMe))
   .patch('/delete-me', catchAsync(authProtected), catchAsync(deleteMe));
 

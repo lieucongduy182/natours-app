@@ -16,16 +16,25 @@ const router = express.Router();
 const ROLES_PERMISSIONS = ['admin', 'lead-guide'];
 
 // Alias API for top-5-cheap
-router.get('/top-5-cheap', aliasTours, catchAsync(getAllTours));
+router.get(
+  '/top-5-cheap',
+  catchAsync(authProtected),
+  aliasTours,
+  catchAsync(getAllTours),
+);
 
-router.get('/stats', catchAsync(getTourStats));
-router.get('/monthly-tours/:year', catchAsync(getMonthlyTours));
+router.get('/stats', catchAsync(authProtected), catchAsync(getTourStats));
+router.get(
+  '/monthly-tours/:year',
+  catchAsync(authProtected),
+  catchAsync(getMonthlyTours),
+);
 
 router
   .get('/', catchAsync(authProtected), catchAsync(getAllTours))
-  .post('/', catchAsync(createTour))
-  .get('/:id', catchAsync(getTour))
-  .put('/:id', catchAsync(updateTour))
+  .post('/', catchAsync(authProtected), catchAsync(createTour))
+  .get('/:id', catchAsync(authProtected), catchAsync(getTour))
+  .put('/:id', catchAsync(authProtected), catchAsync(updateTour))
   .delete(
     '/:id',
     catchAsync(authProtected),
