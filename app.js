@@ -1,6 +1,13 @@
 import express from 'express';
 import bodyParse from 'body-parser';
 import morgan from 'morgan';
+
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
+import ExpressMongoSanitize from 'express-mongo-sanitize';
+import xss from 'xss-clean';
+import hpp from 'hpp';
+
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -11,15 +18,40 @@ import userRoute from './routes/user/router.js';
 import AppError from './utils/appError.js';
 import { getDirPath } from './utils/getDirPath.js';
 import { globalErrorHandler } from './controllers/errorController.js';
+import { TOUR_FIELDS } from './utils/constants.js';
 
 // Middleware
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+if (process.env.NODE_ENV === 'production') {
+  const limiter = rateLimit({
+    max: 100,
+    windowMs: 60 * 60 * 1000,
+    message: 'Too many requests from this IP, please try again in an hour!',
+  });
+
+  app.use('/api', limiter);
+}
+
+app.use(helmet());
+
 app.use(bodyParse.urlencoded({ extended: true }));
-app.use(bodyParse.json());
+app.use(bodyParse.json({ limit: '10kb' }));
 app.use(express.static(getDirPath(import.meta.url, 'public')));
+
+// Data Sanitization against NoSQL query injection
+app.use(ExpressMongoSanitize());
+// Data Sanitization against XSS
+app.use(xss());
+
+// Prevent parameter pollution
+app.use(
+  hpp({
+    whitelist: TOUR_FIELDS,
+  }),
+);
 
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
