@@ -1,16 +1,16 @@
 import express from 'express';
-import { catchAsync } from '../../utils/catchAsync.js';
+import { catchAsync } from '../../utils/catchAsync';
 
-import { aliasTours } from '../../middleware/aliasTours.js';
-import { authProtected, restrictTo } from '../../middleware/auth.js';
+import { aliasTours } from '../../middleware/aliasTours';
+import { authProtected, restrictTo } from '../../middleware/auth';
 
-import getAllTours from './getAllTours/get.js';
-import getTour from './getTour/get.js';
-import createTour from './createTour/post.js';
-import updateTour from './updateTour/put.js';
-import deleteTour from './deleteTour/delete.js';
-import getTourStats from './tour-stats/get.js';
-import getMonthlyTours from './monthly-tours/get.js';
+import getAllTours from './getAllTours/get';
+import getTour from './getTour/get';
+import createTour from './createTour/post';
+import updateTour from './updateTour/put';
+import deleteTour from './deleteTour/delete';
+import getTourStats from './tour-stats/get';
+import getMonthlyTours from './monthly-tours/get';
 
 const router = express.Router();
 const ROLES_PERMISSIONS = ['admin', 'lead-guide'];

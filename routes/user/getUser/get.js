@@ -1,5 +1,5 @@
-import userController from '../../../controllers/userController.js';
-import { sendResponse } from '../../../utils/sendResponse.js';
+import userController from '../../../controllers/userController';
+import { sendResponse } from '../../../utils/sendResponse';
 
 export default async function (req, res, next) {
   const userId = req.params.id;

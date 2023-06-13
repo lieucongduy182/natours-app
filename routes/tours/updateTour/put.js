@@ -1,6 +1,6 @@
-import tourController from '../../../controllers/tourController.js';
-import AppError from '../../../utils/appError.js';
-import { sendResponse } from '../../../utils/sendResponse.js';
+import tourController from '../../../controllers/tourController';
+import AppError from '../../../utils/appError';
+import { sendResponse } from '../../../utils/sendResponse';
 
 export default async function (req, res, next) {
   const {

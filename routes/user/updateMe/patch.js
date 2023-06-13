@@ -1,6 +1,6 @@
-import userController from '../../../controllers/userController.js';
-import AppError from '../../../utils/appError.js';
-import { sendResponse } from '../../../utils/sendResponse.js';
+import userController from '../../../controllers/userController';
+import AppError from '../../../utils/appError';
+import { sendResponse } from '../../../utils/sendResponse';
 
 export default async function (req, res, next) {
   const {

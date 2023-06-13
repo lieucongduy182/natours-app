@@ -1,5 +1,5 @@
-import User from '../models/User.js';
-import { filterObj } from '../utils/filterObject.js';
+import User from '../models/User';
+import { filterObj } from '../utils/filterObject';
 
 class UserController {
   async getAllUsers() {

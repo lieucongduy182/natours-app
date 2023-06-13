@@ -13,12 +13,12 @@ dotenv.config();
 
 const app = express();
 
-import toursRoute from './routes/tours/router.js';
-import userRoute from './routes/user/router.js';
-import AppError from './utils/appError.js';
-import { getDirPath } from './utils/getDirPath.js';
-import { globalErrorHandler } from './controllers/errorController.js';
-import { TOUR_FIELDS } from './utils/constants.js';
+import toursRoute from './routes/tours/router';
+import userRoute from './routes/user/router';
+import AppError from './utils/appError';
+import { getDirPath } from './utils/getDirPath';
+import { globalErrorHandler } from './controllers/errorController';
+import { TOUR_FIELDS } from './utils/constants'
 
 // Middleware
 if (process.env.NODE_ENV === 'development') {

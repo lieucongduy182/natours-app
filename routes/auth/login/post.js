@@ -1,5 +1,5 @@
-import authController from '../../../controllers/authController.js';
-import AppError from '../../../utils/appError.js';
+import authController from '../../../controllers/authController';
+import AppError from '../../../utils/appError';
 
 export default async function (req, res, next) {
   const { email, password } = req.body;

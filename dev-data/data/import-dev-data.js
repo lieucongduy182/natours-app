@@ -3,8 +3,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import fs from 'fs';
-import { getDirPath } from '../../utils/getDirPath.js';
-import Tour from '../../models/Tour.js';
+import { getDirPath } from '../../utils/getDirPath';
+import Tour from '../../models/Tour';
 
 // Connect Database
 const DB = process.env.DATABASE.replace(

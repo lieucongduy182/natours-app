@@ -1,7 +1,7 @@
 import crypto from 'crypto';
-import User from '../../../models/User.js';
-import AppError from '../../../utils/appError.js';
-import authController from '../../../controllers/authController.js';
+import User from '../../../models/User';
+import AppError from '../../../utils/appError';
+import authController from '../../../controllers/authController';
 
 export default async function (req, res, next) {
   const hashedToken = crypto

@@ -1,5 +1,5 @@
-import Tour from '../models/Tour.js';
-import APIFeatures from '../utils/api-features.js';
+import Tour from '../models/Tour';
+import APIFeatures from '../utils/api-features';
 
 class TourController {
   getAllTours({ query }) {

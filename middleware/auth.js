@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import AppError from '../utils/appError.js';
-import User from '../models/User.js';
+import AppError from '../utils/appError';
+import User from '../models/User';
 
 export const authProtected = async (req, res, next) => {
   // 1) Getting token and check of it's there

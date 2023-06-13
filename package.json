@@ -8,7 +8,7 @@
     "node": ">=10"
   },
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "nodemon --experimental-modules --es-module-specifier-resolution=node server.js",
     "start:prod": "NODE_ENV=production nodemon server.js",
     "debug": "ndb server.js"
   },

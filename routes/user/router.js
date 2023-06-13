@@ -1,20 +1,20 @@
 import express from 'express';
-import { catchAsync } from '../../utils/catchAsync.js';
+import { catchAsync } from '../../utils/catchAsync';
 
-import authLogin from '../auth/login/post.js';
-import authRegister from '../auth/register/post.js';
-import authUpdatePassword from '../auth/updatePassword/patch.js';
+import authLogin from '../auth/login/post';
+import authRegister from '../auth/register/post';
+import authUpdatePassword from '../auth/updatePassword/patch';
 
-import forgotPassword from '../auth/forgotPassword/post.js';
-import resetPassword from '../auth/resetPassword/patch.js';
+import forgotPassword from '../auth/forgotPassword/post';
+import resetPassword from '../auth/resetPassword/patch';
 
-import getAllUsers from './getAllUsers/get.js';
-import getUser from './getUser/get.js';
-import createUser from './createUser/post.js';
-import updateMe from './updateMe/patch.js';
-import deleteMe from './deleteMe/delete.js';
+import getAllUsers from './getAllUsers/get';
+import getUser from './getUser/get';
+import createUser from './createUser/post';
+import updateMe from './updateMe/patch';
+import deleteMe from './deleteMe/delete';
 
-import { authProtected } from '../../middleware/auth.js';
+import { authProtected } from '../../middleware/auth';
 
 const router = express.Router();
 

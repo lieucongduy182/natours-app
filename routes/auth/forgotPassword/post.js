@@ -1,7 +1,7 @@
-import User from '../../../models/User.js';
-import AppError from '../../../utils/appError.js';
-import { sendMail } from '../../../utils/sendMail.js';
-import { sendResponse } from '../../../utils/sendResponse.js';
+import User from '../../../models/User';
+import AppError from '../../../utils/appError';
+import { sendMail } from '../../../utils/sendMail';
+import { sendResponse } from '../../../utils/sendResponse';
 
 export default async function (req, res, next) {
   const user = await User.findOne({ email: req.body.email });

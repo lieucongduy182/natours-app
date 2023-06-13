@@ -1,5 +1,5 @@
-import tourController from '../../../controllers/tourController.js';
-import { sendResponse } from '../../../utils/sendResponse.js';
+import tourController from '../../../controllers/tourController';
+import { sendResponse } from '../../../utils/sendResponse';
 
 export default async function (req, res, next) {
   const data = req.body;
