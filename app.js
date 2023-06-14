@@ -18,7 +18,7 @@ import userRoute from './routes/user/router';
 import AppError from './utils/appError';
 import { getDirPath } from './utils/getDirPath';
 import { globalErrorHandler } from './controllers/errorController';
-import { TOUR_FIELDS } from './utils/constants'
+import { TOUR_FIELDS } from './utils/constants';
 
 // Middleware
 if (process.env.NODE_ENV === 'development') {

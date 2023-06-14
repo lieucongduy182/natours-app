@@ -27,7 +27,7 @@ mongoose
   });
 
 const tours = JSON.parse(
-  fs.readFileSync(getDirPath(import.meta.url, './tours-simple.json')),
+  fs.readFileSync(getDirPath(import.meta.url, './tours.json')),
 );
 
 const importData = async () => {

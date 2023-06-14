@@ -10,6 +10,8 @@
   "scripts": {
     "start": "nodemon --experimental-modules --es-module-specifier-resolution=node server.js",
     "start:prod": "NODE_ENV=production nodemon server.js",
+    "migrate:dev": "node --experimental-modules --es-module-specifier-resolution=node dev-data/data/import-dev-data.js --import",
+    "migrate:undo": "node --experimental-modules --es-module-specifier-resolution=node dev-data/data/import-dev-data.js --delete",
     "debug": "ndb server.js"
   },
   "author": "duylc",

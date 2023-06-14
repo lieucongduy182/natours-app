@@ -32,10 +32,10 @@ DATABASE_PASSWORD=
 
 ### Import data for development
 ```
-node dev-data/data/tours-simple.json --import
+yarn migrate:dev
 ```
 
-### Deleta data for development
+### Delete data for development
 ```
-node dev-data/data/tours-simple.json --delete
+yarn migrate:undo
 ```
