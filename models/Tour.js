@@ -101,6 +101,12 @@ const tourSchema = new mongoose.Schema(
       type: Date,
       select: false,
     },
+    guides: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+      },
+    ],
   },
   {
     timestamps: {
@@ -126,6 +132,15 @@ tourSchema.pre('save', function (next) {
 // Query Middleware: find Tours with conditions before query executed
 tourSchema.pre(/^find/, function (next) {
   this.find({ secretTour: { $ne: true } });
+
+  next();
+});
+
+tourSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'guides',
+    select: '-passwordChangedAt',
+  });
 
   next();
 });
