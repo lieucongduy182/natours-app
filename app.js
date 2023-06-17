@@ -15,6 +15,7 @@ const app = express();
 
 import toursRoute from './routes/tours/router';
 import userRoute from './routes/user/router';
+import reviewRoute from './routes/reviews/router';
 import AppError from './utils/appError';
 import { getDirPath } from './utils/getDirPath';
 import { globalErrorHandler } from './controllers/errorController';
@@ -61,6 +62,7 @@ app.use((req, res, next) => {
 // Routes
 app.use('/api/v1/users', userRoute);
 app.use('/api/v1/tours', toursRoute);
+app.use('/api/v1/reviews', reviewRoute);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can not find ${req.originalUrl} on this server`), 404);
