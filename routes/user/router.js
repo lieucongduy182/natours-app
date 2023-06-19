@@ -14,7 +14,7 @@ import createUser from './createUser/post';
 import updateMe from './updateMe/patch';
 import deleteMe from './deleteMe/delete';
 
-import { authProtected } from '../../middleware/auth';
+import { authProtected, restrictTo } from '../../middleware/auth';
 
 const router = express.Router();
 
@@ -35,7 +35,12 @@ router
 // User
 
 router
-  .get('/', catchAsync(authProtected), catchAsync(getAllUsers))
+  .get(
+    '/',
+    catchAsync(authProtected),
+    catchAsync(restrictTo('admin')),
+    catchAsync(getAllUsers),
+  )
   .post('/', catchAsync(authProtected), createUser)
   .get('/:id', catchAsync(authProtected), getUser)
   .patch('/update-me', catchAsync(authProtected), catchAsync(updateMe))

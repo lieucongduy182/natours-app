@@ -96,7 +96,6 @@ userSchema.pre('save', function (next) {
 });
 
 userSchema.pre(/^find/, function (next) {
-  this.select('-__v');
   this.find({ active: { $ne: false } });
   next();
 });

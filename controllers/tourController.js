@@ -12,7 +12,7 @@ class TourController {
   }
 
   getTour({ id }) {
-    return Tour.findById(id);
+    return Tour.findById(id).populate('reviews');
   }
 
   createTour({ data }) {

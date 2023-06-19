@@ -33,9 +33,12 @@ const reviewSchema = new mongoose.Schema(
 );
 
 reviewSchema.pre(/^find/, function (next) {
-  this.populate('tours').populate({
+  this.populate({
+    path: 'tours',
+    select: 'name',
+  }).populate({
     path: 'users',
-    select: '-passwordChangedAt -passwordResetToken -passwordResetExpires',
+    select: 'name photo',
   });
   next();
 });
