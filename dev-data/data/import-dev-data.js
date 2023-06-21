@@ -5,6 +5,8 @@ dotenv.config();
 import fs from 'fs';
 import { getDirPath } from '../../utils/getDirPath';
 import Tour from '../../models/Tour';
+import User from '../../models/User';
+import Review from '../../models/Review';
 
 // Connect Database
 const DB = process.env.DATABASE.replace(
@@ -29,10 +31,18 @@ mongoose
 const tours = JSON.parse(
   fs.readFileSync(getDirPath(import.meta.url, './tours.json')),
 );
+const users= JSON.parse(
+  fs.readFileSync(getDirPath(import.meta.url, './users.json')),
+);
+const reviews = JSON.parse(
+  fs.readFileSync(getDirPath(import.meta.url, './reviews.json')),
+);
 
 const importData = async () => {
   try {
     await Tour.create(tours);
+    await User.create(users, { validateBeforeSave: false });
+    await Review.create(reviews);
     console.log('Imported Data Successfully');
     process.exit();
   } catch (error) {
@@ -43,6 +53,8 @@ const importData = async () => {
 const deleteData = async () => {
   try {
     await Tour.deleteMany();
+    await User.deleteMany();
+    await Review.deleteMany();
     console.log('Deleted Data Successfully');
     process.exit();
   } catch (error) {
