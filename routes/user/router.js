@@ -22,34 +22,23 @@ const router = express.Router();
 // Auth
 router
   .post('/register', catchAsync(authRegister))
-  .post('/login', catchAsync(authLogin));
+  .post('/login', catchAsync(authLogin))
+  .post('/forgot-password', catchAsync(forgotPassword))
+  .patch('/reset-password/:token', catchAsync(resetPassword));
+
+router.use(catchAsync(authProtected));
 
 router
-  .post('/forgot-password', catchAsync(forgotPassword))
-  .patch('/reset-password/:token', catchAsync(resetPassword))
-  .patch(
-    '/update-password',
-    catchAsync(authProtected),
-    catchAsync(authUpdatePassword),
-  );
+  .get('/me', getMe, catchAsync(getCurrentUser))
+  .patch('/update-password', catchAsync(authUpdatePassword))
+  .patch('/update-me', catchAsync(updateMe));
+
+router.use(restrictTo('admin'));
 
 // User
-
 router
-  .get(
-    '/',
-    catchAsync(authProtected),
-    catchAsync(restrictTo('admin')),
-    catchAsync(getAllUsers),
-  )
-  .post(
-    '/',
-    catchAsync(authProtected),
-    restrictTo('admin'),
-    catchAsync(createUser),
-  )
-  .patch('/update-me', catchAsync(authProtected), catchAsync(updateMe))
-  .patch('/delete-me', catchAsync(authProtected), catchAsync(deleteMe))
-  .get('/me', catchAsync(authProtected), getMe, catchAsync(getCurrentUser));
+  .get('/', catchAsync(getAllUsers))
+  .post('/', catchAsync(createUser))
+  .patch('/delete-me', catchAsync(deleteMe));
 
 export default router;

@@ -17,32 +17,21 @@ import reviewRouter from '../reviews/router';
 const router = express.Router();
 const ROLES_PERMISSIONS = ['admin', 'lead-guide'];
 
-// Alias API for top-5-cheap
-router.get(
-  '/top-5-cheap',
-  catchAsync(authProtected),
-  aliasTours,
-  catchAsync(getAllTours),
-);
-
-router.get('/stats', catchAsync(authProtected), catchAsync(getTourStats));
-router.get(
-  '/monthly-tours/:year',
-  catchAsync(authProtected),
-  catchAsync(getMonthlyTours),
-);
+router.use(catchAsync(authProtected));
 
 router
-  .get('/', catchAsync(authProtected), catchAsync(getAllTours))
-  .post('/', catchAsync(authProtected), catchAsync(createTour))
-  .get('/:id', catchAsync(authProtected), catchAsync(getTour))
-  .put('/:id', catchAsync(authProtected), catchAsync(updateTour))
-  .delete(
-    '/:id',
-    catchAsync(authProtected),
-    restrictTo(ROLES_PERMISSIONS),
-    catchAsync(deleteTour),
-  );
+  .get('/top-5-cheap', aliasTours, catchAsync(getAllTours))
+  .get('/stats', catchAsync(getTourStats))
+  .get('/', catchAsync(getAllTours))
+  .get('/:id', catchAsync(getTour));
+
+router.use(restrictTo(ROLES_PERMISSIONS));
+
+router
+  .get('/monthly-tours/:year', catchAsync(getMonthlyTours))
+  .post('/', catchAsync(createTour))
+  .put('/:id', updateTour)
+  .delete('/:id', catchAsync(deleteTour));
 
 router.use('/:tourId/reviews', reviewRouter);
 
