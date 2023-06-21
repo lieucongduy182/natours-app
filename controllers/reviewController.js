@@ -1,8 +1,8 @@
 import Review from '../models/Review';
 
 class ReviewController {
-  getAllReviews() {
-    return Review.find();
+  getTourReviews(filter) {
+    return Review.find(filter);
   }
 
   createReview({ data }) {

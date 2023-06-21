@@ -9,12 +9,13 @@ import forgotPassword from '../auth/forgotPassword/post';
 import resetPassword from '../auth/resetPassword/patch';
 
 import getAllUsers from './getAllUsers/get';
-import getUser from './getUser/get';
+import getCurrentUser from './getCurrentUser/get';
 import createUser from './createUser/post';
 import updateMe from './updateMe/patch';
 import deleteMe from './deleteMe/delete';
 
 import { authProtected, restrictTo } from '../../middleware/auth';
+import getMe from '../../middleware/getMe';
 
 const router = express.Router();
 
@@ -41,9 +42,14 @@ router
     catchAsync(restrictTo('admin')),
     catchAsync(getAllUsers),
   )
-  .post('/', catchAsync(authProtected), createUser)
-  .get('/:id', catchAsync(authProtected), getUser)
+  .post(
+    '/',
+    catchAsync(authProtected),
+    restrictTo('admin'),
+    catchAsync(createUser),
+  )
   .patch('/update-me', catchAsync(authProtected), catchAsync(updateMe))
-  .patch('/delete-me', catchAsync(authProtected), catchAsync(deleteMe));
+  .patch('/delete-me', catchAsync(authProtected), catchAsync(deleteMe))
+  .get('/me', catchAsync(authProtected), getMe, catchAsync(getCurrentUser));
 
 export default router;
