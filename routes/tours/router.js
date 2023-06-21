@@ -12,6 +12,8 @@ import deleteTour from './deleteTour/delete';
 import getTourStats from './tour-stats/get';
 import getMonthlyTours from './monthly-tours/get';
 
+import reviewRouter from '../reviews/router';
+
 const router = express.Router();
 const ROLES_PERMISSIONS = ['admin', 'lead-guide'];
 
@@ -41,5 +43,7 @@ router
     restrictTo(ROLES_PERMISSIONS),
     catchAsync(deleteTour),
   );
+
+router.use('/:tourId/reviews', reviewRouter);
 
 export default router;

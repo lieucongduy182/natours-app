@@ -3,14 +3,14 @@ import { catchAsync } from '../../utils/catchAsync';
 
 import { authProtected, restrictTo } from '../../middleware/auth';
 
-import createReview from './createReview/post';
-import getAllReviews from './getAllReviews/get';
+import createTourReview from './createTourReview/post';
+import getTourReviews from './getTourReviews/get';
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 router
   .route('/')
-  .get(catchAsync(getAllReviews))
-  .post(authProtected, restrictTo('user'), catchAsync(createReview));
+  .get(catchAsync(getTourReviews))
+  .post(authProtected, restrictTo('user'), catchAsync(createTourReview));
 
 export default router;
