@@ -18,6 +18,7 @@ const router = express.Router();
 const ROLES_PERMISSIONS = ['admin', 'lead-guide'];
 
 router.use(catchAsync(authProtected));
+router.use('/:tourId/reviews', reviewRouter);
 
 router
   .get('/top-5-cheap', aliasTours, catchAsync(getAllTours))
@@ -32,7 +33,5 @@ router
   .post('/', catchAsync(createTour))
   .put('/:id', updateTour)
   .delete('/:id', catchAsync(deleteTour));
-
-router.use('/:tourId/reviews', reviewRouter);
 
 export default router;

@@ -3,7 +3,7 @@ import AppError from '../../../utils/appError';
 import { sendResponse } from '../../../utils/sendResponse';
 
 export default async function updateReview(req, res, next) {
-  const { id: reviewId } = req.params.id;
+  const { id: reviewId } = req.params;
   const data = req.body;
 
   if (!reviewId) {
@@ -11,7 +11,7 @@ export default async function updateReview(req, res, next) {
   }
 
   if (!data) {
-    return next(new AppError('No data found', 404));
+    return next(new AppError('No data to update review', 404));
   }
 
   const review = await reviewController.updateReview({ reviewId, data });

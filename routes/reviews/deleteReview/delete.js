@@ -3,7 +3,7 @@ import AppError from '../../../utils/appError';
 import { sendResponse } from '../../../utils/sendResponse';
 
 export default async function deleteReview(req, res, next) {
-  const { id: reviewId } = req.params.id;
+  const { id: reviewId } = req.params;
 
   if (!reviewId) {
     return next(new AppError('No review found with that ID', 404));

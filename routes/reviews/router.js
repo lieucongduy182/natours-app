@@ -5,7 +5,8 @@ import { authProtected, restrictTo } from '../../middleware/auth';
 
 import createTourReview from './createTourReview/post';
 import getTourReviews from './getTourReviews/get';
-import updateReview from './updateReview/post';
+import updateReview from './updateReview/put';
+import deleteReview from './deleteReview/delete';
 
 import setTourUserId from '../../middleware/setTourUserId';
 
@@ -24,6 +25,9 @@ router
   );
 
 router.use(restrictTo('user', 'admin'));
-router.route('/:id').post(catchAsync(updateReview)).delete(catchAsync);
+router
+  .route('/:id')
+  .put(catchAsync(updateReview))
+  .delete(catchAsync(deleteReview));
 
 export default router;
